@@ -1,200 +1,28 @@
-/* import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { Routes, Route, Link } from 'react-router-dom'
+// Importamos el componente que creamos en el paso anterior
+import ListaMacetas from './components/listaMacetas' 
+
+const Inicio = () => <h2>Bienvenido al Inventario de Macetas 🪴</h2>;
+const NuevaMaceta = () => <h2>Agregar nueva maceta</h2>;
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div>
+      <nav>
+        <Link to="/" style={{ marginRight: '10px' }}>Inicio</Link>
+        <Link to="/macetas" style={{ marginRight: '10px' }}>Inventario</Link>
+        <Link to="/nueva">Agregar Maceta</Link>
+      </nav>
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+      <main>
+        <Routes>
+          <Route path="/" element={<Inicio />} />
+          <Route path="/macetas" element={<ListaMacetas />} />
+          <Route path="/nueva" element={<NuevaMaceta />} />
+        </Routes>
+      </main>
+    </div>
   )
 }
 
 export default App
- */
-import { useEffect, useState } from "react";
-
-type Maceta = {
-  id: number
-  nombre: string
-  precio: number
-  stock: number
-
-  color: {
-    id: number
-    nombre: string
-  }
-
-  diseno: {
-    id: number
-    nombre: string
-  }
-
-  modelo: {
-    id: number
-    nombre: string
-  }
-
-  tamano: {
-    id: number
-    nombre: string
-  }
-}
-
-function App() {
-  const [macetas, setMacetas] = useState<Maceta[]>([]);
-
-  useEffect(() => {
-    fetch("http://localhost:5090/api/macetas")
-      .then(response => response.json())
-      .then(data => {
-        console.log(data)
-        setMacetas(data)
-      })
-      .catch(error => console.error(error))
-  }, []);
-
-  return (
-    <div>
-      <h1>Inventario de Macetas</h1>
-
-      <table border={1}>
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Color</th>
-            <th>Diseño</th>
-            <th>Modelo</th>
-            <th>Tamaño</th>
-            <th>Precio</th>
-            <th>Stock</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {macetas.map((maceta) => (
-            <tr key={maceta.id}>
-              <td>{maceta.nombre}</td>
-              <td>{maceta.color.nombre}</td>
-              <td>{maceta.diseno.nombre}</td>
-              <td>{maceta.modelo.nombre}</td>
-              <td>{maceta.tamano.nombre}</td>
-              <td>{maceta.precio}</td>
-              <td>{maceta.stock}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
-}
-
-export default App;
