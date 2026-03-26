@@ -1,5 +1,6 @@
-// src/components/ListaMacetas.tsx
 import { useMacetas } from '../hooks/useMacetas';
+import './ListaMacetas.css';
+
 
 const ListaMacetas = () => {
   // Solo llamamos a nuestro hook y desestructuramos lo que necesitamos
@@ -9,10 +10,10 @@ const ListaMacetas = () => {
   if (error) return <p style={{ color: 'red' }}>{error}</p>;
 
   return (
-    <div>
-      <h2>Inventario Actual</h2>
-      
-       <table border={1}>
+
+    <div className="contenedor-tabla">
+      <h2 style={{ color: '#2e7d32' }}> Inventario Actual </h2>
+       <table className="tabla-macetas">
         <thead>
           <tr>
             <th>Nombre</th>
@@ -34,12 +35,19 @@ const ListaMacetas = () => {
               <td>{maceta.modelo.nombre}</td>
               <td>{maceta.tamano.nombre}</td>
               <td>{maceta.precio}</td>
-              <td>{maceta.stock}</td>
+              <td>
+                <span className={maceta.stock < 5 ? 'stock-bajo' : 'stock-alto'}>
+                  {maceta.stock}
+                </span>
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
     </div>
+
+
+
   );
 };
 

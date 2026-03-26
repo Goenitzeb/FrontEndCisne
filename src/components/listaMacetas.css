@@ -1,0 +1,74 @@
+
+.contenedor-tabla {
+  margin-top: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  overflow-x: auto;
+  border: 1px solid #dcdcdc; 
+}
+
+.tabla-macetas {
+  width: 100%;
+  border-collapse: collapse; /* Crucial para que los bordes se unan */
+  background-color: #ffffff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-width: 800px; /* Asegura un ancho mínimo para que no se amontone */
+}
+
+/* Estilos compartidos para th y td (los bordes) */
+.tabla-macetas th,
+.tabla-macetas td {
+  padding: 14px 16px;
+  border: 1px solid #dcdcdc; 
+  /* Eliminamos el text-align: left de aquí */
+}
+
+/* Estilos específicos para los encabezados */
+.tabla-macetas th {
+  background-color: #2e7d32;
+  color: #ffffff;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+  border: 1px solid rgba(255, 255, 255, 0.1); 
+  text-align: center; /* <--- ¡Aquí está la magia para centrar las columnas! */
+  align-items: center;
+}
+
+/* Estilos específicos para las celdas de datos */
+.tabla-macetas td {
+  text-align: center; /* Cambia esto a 'left' si prefieres que los datos sigan a la izquierda y solo el título esté centrado */
+}
+/* Efecto cebra (mantenemos las filas gris claro) */
+.tabla-macetas tbody tr:nth-of-type(even) {
+  background-color: #f9f9f9;
+}
+
+/* Efecto al pasar el mouse */
+.tabla-macetas tbody tr:hover {
+  background-color: #e8f5e9;
+  transition: background-color 0.15s ease-in;
+}
+
+/* Clases para el stock (mismos estilos) */
+.stock-bajo {
+  color: #d32f2f;
+  font-weight: bold;
+  background-color: #ffebee;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  display: inline-block; /* Asegura que el padding se vea bien */
+}
+
+.stock-alto {
+  color: #2e7d32;
+  font-weight: bold;
+  background-color: #e8f5e9;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  display: inline-block;
+}
