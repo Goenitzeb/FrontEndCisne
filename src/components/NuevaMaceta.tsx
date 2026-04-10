@@ -1,10 +1,10 @@
 // src/components/NuevaMaceta.tsx
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './nuevaMaceta.css';
 import { crearMaceta } from '../services/macetasService';
 import type { AtributoMaceta } from '../types/maceta'; // Importamos la interfaz que creamos antes
  // Importamos la interfaz que creamos antes
+import './NuevaMaceta.css';
 
 // Obtenemos la URL base desde las variables de entorno
 const API_URL = import.meta.env.VITE_API_URL;
@@ -22,7 +22,6 @@ const NuevaMaceta = () => {
 
   const [formulario, setFormulario] = useState({
     nombre: '',
-    material: '',
     stock: '',
     precio: '',
     color_id: '',
@@ -118,11 +117,6 @@ const NuevaMaceta = () => {
         <div className="grupo-input">
           <label>Nombre de la Maceta:</label>
           <input type="text" name="nombre" required value={formulario.nombre} onChange={handleChange} placeholder="Ej. Maceta Orquídea" />
-        </div>
-
-        <div className="grupo-input">
-          <label>Material:</label>
-          <input type="text" name="material" required value={formulario.material} onChange={handleChange} placeholder="Ej. Cerámica" />
         </div>
 
         <div className="fila-inputs">
