@@ -22,6 +22,7 @@ export const obtenerMacetas = async (): Promise<Maceta[]> => {
   }
 };
 
+<<<<<<< Feature1
 export const crearMaceta = async (datosMaceta: any) => {
   try {
     const response = await fetch(`${API_URL}/macetas`, {
@@ -41,5 +42,71 @@ export const crearMaceta = async (datosMaceta: any) => {
   } catch (error) {
     console.error("Error creando la maceta:", error);
     throw error;
+=======
+export const crearMaceta = async (maceta: any) => {
+  const response = await fetch(`${API_URL}/macetas`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(maceta)
+  });
+
+  if (!response.ok) {
+    throw new Error('Error al crear la maceta');
+  }
+
+  return await response.json();
+};
+
+
+export const obtenerColores = async () => {
+  const res = await fetch(`${API_URL}/macetas/colores`);
+  return await res.json();
+};
+
+export const obtenerModelos = async () => {
+  const res = await fetch(`${API_URL}/macetas/modelos`);
+  return await res.json();
+};
+
+export const obtenerDisenos = async () => {
+  const res = await fetch(`${API_URL}/macetas/disenos`);
+  return await res.json();
+};
+
+export const obtenerTamanos = async () => {
+  const res = await fetch(`${API_URL}/macetas/tamanos`);
+  return await res.json();
+};
+
+
+export const eliminarMaceta = async (id: number) => {
+  const res = await fetch(`${API_URL}/macetas/${id}`, {
+    method: "DELETE"
+  });
+
+  if (!res.ok) {
+    throw new Error("Error al eliminar");
+  }
+};
+
+export const obtenerMacetaPorId = async (id: number) => {
+  const res = await fetch(`${API_URL}/macetas/${id}`);
+  return await res.json();
+};
+
+export const actualizarMaceta = async (id: number, maceta: any) => {
+  const res = await fetch(`${API_URL}/macetas/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(maceta)
+  });
+
+  if (!res.ok) {
+    throw new Error("Error al actualizar");
+>>>>>>> main
   }
 };
