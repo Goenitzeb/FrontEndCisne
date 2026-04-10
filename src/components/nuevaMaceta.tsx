@@ -22,7 +22,6 @@ const NuevaMaceta = () => {
 
   const [formulario, setFormulario] = useState({
     nombre: '',
-    material: '',
     stock: '',
     precio: '',
     color_id: '',
@@ -118,11 +117,6 @@ const NuevaMaceta = () => {
         <div className="grupo-input">
           <label>Nombre de la Maceta:</label>
           <input type="text" name="nombre" required value={formulario.nombre} onChange={handleChange} placeholder="Ej. Maceta Orquídea" />
-        </div>
-
-        <div className="grupo-input">
-          <label>Material:</label>
-          <input type="text" name="material" required value={formulario.material} onChange={handleChange} placeholder="Ej. Cerámica" />
         </div>
 
         <div className="fila-inputs">
