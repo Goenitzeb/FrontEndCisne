@@ -1,0 +1,115 @@
+/* src/components/NuevaMaceta.css */
+.contenedor-formulario {
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e8f5e9;
+}
+
+.formulario-maceta {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.grupo-input {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+}
+
+.grupo-input label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.grupo-input input {
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+.grupo-input input:focus {
+  outline: none;
+  border-color: #2e7d32;
+  box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.2);
+}
+
+.fila-inputs {
+  display: flex;
+  gap: 15px;
+}
+
+.nota-foraneas {
+  font-size: 0.85rem;
+  color: #666;
+  font-style: italic;
+  margin: 10px 0 0 0;
+  padding-top: 10px;
+  border-top: 1px dashed #ccc;
+}
+
+.btn-guardar {
+  margin-top: 20px;
+  padding: 12px;
+  background-color: #2e7d32;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-guardar:hover:not(:disabled) {
+  background-color: #1b5e20;
+}
+
+.btn-guardar:disabled {
+  background-color: #a5d6a7;
+  cursor: not-allowed;
+}
+
+.mensaje-error {
+  background-color: #ffebee;
+  color: #d32f2f;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+
+/* Busca esta línea y modifícala así: */
+.grupo-input input, 
+.grupo-input select {
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: inherit;
+  background-color: #ffffff; /* Asegura que el fondo sea blanco */
+}
+
+/* Y haz lo mismo para el focus: */
+.grupo-input input:focus, 
+.grupo-input select:focus {
+  outline: none;
+  border-color: #2e7d32;
+  box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.2);
+}
+
+/* Agrega también este pequeño estilo para la línea divisoria que pusimos: */
+.divisor {
+  border: 0;
+  border-top: 1px dashed #ccc;
+  margin: 15px 0;
+}

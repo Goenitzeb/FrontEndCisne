@@ -1,26 +1,15 @@
+export interface AtributoMaceta {
+  id: number
+  nombre: string
+}
+
 export interface Maceta {  
-id: number
+  id: number
   nombre: string
   precio: number
   stock: number
-
-  color: {
-    id: number
-    nombre: string
-  }
-
-  diseno: {
-    id: number
-    nombre: string
-  }
-
-  modelo: {
-    id: number
-    nombre: string
-  }
-
-  tamano: {
-    id: number
-    nombre: string
-  }
+  color: string
+  diseno: string
+  modelo: string
+  tamano: string
 }
