@@ -1,9 +1,9 @@
 import { Routes, Route, Link } from 'react-router-dom'
 // Importamos el componente que creamos en el paso anterior
 import ListaMacetas from './components/listaMacetas' 
+import NuevaMaceta from './components/NuevaMaceta';
 
 const Inicio = () => <h2>Bienvenido al Inventario de Macetas 🪴</h2>;
-const NuevaMaceta = () => <h2>Agregar nueva maceta</h2>;
 
 function App() {
   return (

@@ -72,3 +72,68 @@
   font-size: 0.85rem;
   display: inline-block;
 }
+
+/* =========================================
+   ESTILOS DE LA CABECERA Y EL BUSCADOR
+   ========================================= */
+
+.cabecera-inventario {
+  display: flex;
+  justify-content: space-between; /* Separa el título del buscador */
+  align-items: center; /* Los centra verticalmente */
+  margin-bottom: 20px;
+  margin-top: 10px;
+  background-color: #0e9b0e00; /* Un fondo súper suave verde */
+  padding: 15px 20px;
+  border-radius: 12px;
+  border: 1px solid #e8f5e900;
+}
+
+.buscador-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 350px; /* Tamaño máximo del buscador */
+}
+
+.icono-lupa {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%); /* Centra el ícono perfectamente */
+  font-size: 1.1rem;
+  pointer-events: none; /* Evita que el ícono interfiera al hacer clic */
+  opacity: 0.7;
+}
+
+.buscador-input {
+  width: 100%;
+  padding: 12px 15px 12px 42px; /* Mucho padding a la izquierda para hacer espacio al ícono */
+  font-size: 0.95rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 30px; /* Forma redonda estilo píldora */
+  outline: none;
+  background-color: #ffffff;
+  color: #333333;
+  transition: all 0.3s ease; /* Animación súper suave */
+  font-family: inherit;
+  /* El box-sizing es importante para que el width: 100% no se desborde con el padding */
+  box-sizing: border-box; 
+}
+
+/* Efecto al hacer clic en el buscador (Focus) */
+.buscador-input:focus {
+  border-color: #2e7d32;
+  box-shadow: 0 4px 12px rgba(46, 125, 50, 0.15); /* Sombra verde difuminada */
+  transform: translateY(-1px); /* Se levanta un poquitito al hacer clic */
+}
+
+/* Cambia el color del texto de ayuda (placeholder) */
+.buscador-input::placeholder {
+  color: #999999;
+}
+
+.grupo-input input[type="number"]::-webkit-inner-spin-button,
+.grupo-input input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
