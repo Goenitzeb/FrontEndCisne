@@ -1,0 +1,139 @@
+
+.contenedor-tabla {
+  margin-top: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  overflow-x: auto;
+  border: 1px solid #dcdcdc; 
+}
+
+.tabla-macetas {
+  width: 100%;
+  border-collapse: collapse; /* Crucial para que los bordes se unan */
+  background-color: #ffffff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-width: 800px; /* Asegura un ancho mínimo para que no se amontone */
+}
+
+/* Estilos compartidos para th y td (los bordes) */
+.tabla-macetas th,
+.tabla-macetas td {
+  padding: 14px 16px;
+  border: 1px solid #dcdcdc; 
+  /* Eliminamos el text-align: left de aquí */
+}
+
+/* Estilos específicos para los encabezados */
+.tabla-macetas th {
+  background-color: #2e7d32;
+  color: #ffffff;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+  border: 1px solid rgba(255, 255, 255, 0.1); 
+  text-align: center; /* <--- ¡Aquí está la magia para centrar las columnas! */
+  align-items: center;
+}
+
+/* Estilos específicos para las celdas de datos */
+.tabla-macetas td {
+  text-align: center; /* Cambia esto a 'left' si prefieres que los datos sigan a la izquierda y solo el título esté centrado */
+}
+/* Efecto cebra (mantenemos las filas gris claro) */
+.tabla-macetas tbody tr:nth-of-type(even) {
+  background-color: #f9f9f9;
+}
+
+/* Efecto al pasar el mouse */
+.tabla-macetas tbody tr:hover {
+  background-color: #e8f5e9;
+  transition: background-color 0.15s ease-in;
+}
+
+/* Clases para el stock (mismos estilos) */
+.stock-bajo {
+  color: #d32f2f;
+  font-weight: bold;
+  background-color: #ffebee;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  display: inline-block; /* Asegura que el padding se vea bien */
+}
+
+.stock-alto {
+  color: #2e7d32;
+  font-weight: bold;
+  background-color: #e8f5e9;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  display: inline-block;
+}
+
+/* =========================================
+   ESTILOS DE LA CABECERA Y EL BUSCADOR
+   ========================================= */
+
+.cabecera-inventario {
+  display: flex;
+  justify-content: space-between; /* Separa el título del buscador */
+  align-items: center; /* Los centra verticalmente */
+  margin-bottom: 20px;
+  margin-top: 10px;
+  background-color: #0e9b0e00; /* Un fondo súper suave verde */
+  padding: 15px 20px;
+  border-radius: 12px;
+  border: 1px solid #e8f5e900;
+}
+
+.buscador-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 350px; /* Tamaño máximo del buscador */
+}
+
+.icono-lupa {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%); /* Centra el ícono perfectamente */
+  font-size: 1.1rem;
+  pointer-events: none; /* Evita que el ícono interfiera al hacer clic */
+  opacity: 0.7;
+}
+
+.buscador-input {
+  width: 100%;
+  padding: 12px 15px 12px 42px; /* Mucho padding a la izquierda para hacer espacio al ícono */
+  font-size: 0.95rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 30px; /* Forma redonda estilo píldora */
+  outline: none;
+  background-color: #ffffff;
+  color: #333333;
+  transition: all 0.3s ease; /* Animación súper suave */
+  font-family: inherit;
+  /* El box-sizing es importante para que el width: 100% no se desborde con el padding */
+  box-sizing: border-box; 
+}
+
+/* Efecto al hacer clic en el buscador (Focus) */
+.buscador-input:focus {
+  border-color: #2e7d32;
+  box-shadow: 0 4px 12px rgba(46, 125, 50, 0.15); /* Sombra verde difuminada */
+  transform: translateY(-1px); /* Se levanta un poquitito al hacer clic */
+}
+
+/* Cambia el color del texto de ayuda (placeholder) */
+.buscador-input::placeholder {
+  color: #999999;
+}
+
+.grupo-input input[type="number"]::-webkit-inner-spin-button,
+.grupo-input input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
