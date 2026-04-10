@@ -1,159 +1,197 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import {
-  crearMaceta,
-  obtenerColores,
-  obtenerModelos,
-  obtenerDisenos,
-  obtenerTamanos
-} from "../services/macetasService";
+// src/components/NuevaMaceta.tsx
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import './nuevaMaceta.css';
+import { crearMaceta } from '../services/macetasService';
+import type { AtributoMaceta } from '../types/maceta'; // Importamos la interfaz que creamos antes
+ // Importamos la interfaz que creamos antes
+
+// Obtenemos la URL base desde las variables de entorno
+const API_URL = import.meta.env.VITE_API_URL;
 
 const NuevaMaceta = () => {
   const navigate = useNavigate();
+  const [cargando, setCargando] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const [form, setForm] = useState({
-    nombre: "",
-    precio: 0,
-    stock: 0,
-    colorId: 0,
-    disenoId: 0,
-    modeloId: 0,
-    tamanoId: 0
+  // Estados para guardar las listas que vienen de la API
+  const [colores, setColores] = useState<AtributoMaceta[]>([]);
+  const [disenos, setDisenos] = useState<AtributoMaceta[]>([]);
+  const [tamanos, setTamanos] = useState<AtributoMaceta[]>([]);
+  const [modelos, setModelos] = useState<AtributoMaceta[]>([]);
+
+  const [formulario, setFormulario] = useState({
+    nombre: '',
+    material: '',
+    stock: '',
+    precio: '',
+    color_id: '',
+    diseno_id: '',
+    tamano_id: '',
+    modelo_id: ''
   });
 
-  const [colores, setColores] = useState<any[]>([]);
-  const [modelos, setModelos] = useState<any[]>([]);
-  const [disenos, setDisenos] = useState<any[]>([]);
-  const [tamanos, setTamanos] = useState<any[]>([]);
-
-  const [mensaje, setMensaje] = useState<string | null>(null);
-  const [cargando, setCargando] = useState(false);
-
+  // useEffect para descargar las opciones de la API al abrir la página
   useEffect(() => {
-    const cargar = async () => {
+    const cargarOpciones = async () => {
       try {
-        const [c, m, d, t] = await Promise.all([
-          obtenerColores(),
-          obtenerModelos(),
-          obtenerDisenos(),
-          obtenerTamanos()
+        // Hacemos las 4 peticiones al mismo tiempo para que sea súper rápido
+        const [resColores, resDisenos, resTamanos, resModelos] = await Promise.all([
+          fetch(`${API_URL}/color`),
+          fetch(`${API_URL}/diseno`),
+          fetch(`${API_URL}/tamano`),
+          fetch(`${API_URL}/modelo`)
         ]);
 
-        setColores(c);
-        setModelos(m);
-        setDisenos(d);
-        setTamanos(t);
-      } catch (error) {
-        console.error("Error cargando catálogos:", error);
+        // Convertimos las respuestas a JSON y actualizamos los estados
+        setColores(await resColores.json());
+        setDisenos(await resDisenos.json());
+        setTamanos(await resTamanos.json());
+        setModelos(await resModelos.json());
+      } catch (err) {
+        console.error("Error cargando opciones de la API:", err);
+        // Aquí podrías poner un setError si falla la carga inicial
       }
     };
 
-    cargar();
-  }, []);
+    cargarOpciones();
+  }, []); // El arreglo vacío [] asegura que esto solo pase 1 vez al cargar la página
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-
-    setForm({
-      ...form,
-      [name]: ["precio", "stock", "colorId", "disenoId", "modeloId", "tamanoId"].includes(name)
-        ? Number(value)
-        : value
+    setFormulario({
+      ...formulario,
+      [name]: value,
     });
   };
 
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault(); 
+    setCargando(true);
+    setError(null);
 
-    if (!form.nombre.trim()) {
-      setMensaje("El nombre es obligatorio");
-      return;
+    const stockNumero = Number(formulario.stock);
+    const precioNumero = Number(formulario.precio);
+
+    if (stockNumero < 0) {
+      setError('El stock no puede ser un número negativo.');
+      setCargando(false);
+      return; 
     }
 
-    if (form.precio <= 0) {
-      setMensaje("El precio debe ser mayor a 0");
-      return;
-    }
-
-    if (form.stock < 0) {
-      setMensaje("El stock no puede ser negativo");
-      return;
-    }
-
-    if (!form.colorId || !form.disenoId || !form.modeloId || !form.tamanoId) {
-      setMensaje("Debes seleccionar todas las opciones");
-      return;
+    if (precioNumero <= 0) {
+      setError('El precio debe ser mayor a $0.');
+      setCargando(false);
+      return; 
     }
 
     try {
-      setCargando(true);
-      await crearMaceta(form);
+      const datosParaEnviar = {
+        ...formulario,
+        stock: stockNumero,
+        precio: precioNumero,
+        // Convertimos los IDs foráneos a números, ya que los select los guardan como texto
+        color_id: Number(formulario.color_id),
+        diseno_id: Number(formulario.diseno_id),
+        tamano_id: Number(formulario.tamano_id),
+        modelo_id: Number(formulario.modelo_id)
+      };
 
-      setMensaje("Maceta creada correctamente");
-
-      setTimeout(() => {
-        navigate("/macetas");
-      }, 1000);
-    } catch (error) {
-      console.error(error);
-      setMensaje("Error al crear la maceta");
+      await crearMaceta(datosParaEnviar);
+      alert('¡Maceta creada con éxito! 🪴');
+      navigate('/macetas'); 
+    } catch (err) {
+      setError('Hubo un problema al guardar la maceta. Revisa los datos.');
     } finally {
       setCargando(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Agregar Maceta</h2>
+    <div className="contenedor-formulario">
+      <h2 style={{ color: '#2e7d32' }}>🌱 Registrar Nueva Maceta</h2>
+      
+      {error && <p className="mensaje-error">{error}</p>}
 
-      {mensaje && <p>{mensaje}</p>}
+      <form onSubmit={handleSubmit} className="formulario-maceta">
+        {/* --- DATOS GENERALES --- */}
+        <div className="grupo-input">
+          <label>Nombre de la Maceta:</label>
+          <input type="text" name="nombre" required value={formulario.nombre} onChange={handleChange} placeholder="Ej. Maceta Orquídea" />
+        </div>
 
-      <input name="nombre" placeholder="Nombre" onChange={handleChange} required />
+        <div className="grupo-input">
+          <label>Material:</label>
+          <input type="text" name="material" required value={formulario.material} onChange={handleChange} placeholder="Ej. Cerámica" />
+        </div>
 
-      <input name="precio" type="number" placeholder="Precio" onChange={handleChange} required />
+        <div className="fila-inputs">
+          <div className="grupo-input">
+            <label>Stock (Cantidad):</label>
+            <input 
+              type="number" name="stock" required min="0" step="1" value={formulario.stock} onChange={handleChange}
+              onKeyDown={(e) => { if (['-', 'e', 'E', '+'].includes(e.key)) e.preventDefault(); }}
+            />
+          </div>
+          <div className="grupo-input">
+            <label>Precio ($):</label>
+            <input 
+              type="number" name="precio" required min="0.01" step="0.01" value={formulario.precio} onChange={handleChange}
+              onKeyDown={(e) => { if (['-', 'e', 'E', '+'].includes(e.key)) e.preventDefault(); }}
+            />
+          </div>
+        </div>
 
-      <input name="stock" type="number" placeholder="Stock" onChange={handleChange} required />
+        {/* --- SECCIÓN DE LLAVES FORÁNEAS (LISTAS DESPLEGABLES) --- */}
+        <hr className="divisor" />
 
-      <select name="colorId" onChange={handleChange} required>
-        <option value="">Selecciona un color</option>
-        {colores.map((c) => (
-          <option key={c.id} value={c.id}>
-            {c.nombre}
-          </option>
-        ))}
-      </select>
+        <div className="fila-inputs">
+          <div className="grupo-input">
+            <label>Modelo:</label>
+            <select name="modelo_id" required value={formulario.modelo_id} onChange={handleChange}>
+              <option value="">-- Selecciona un modelo --</option>
+              {modelos.map((modelo) => (
+                <option key={modelo.id} value={modelo.id}>{modelo.nombre}</option>
+              ))}
+            </select>
+          </div>
+          <div className="grupo-input">
+            <label>Diseño:</label>
+            <select name="diseno_id" required value={formulario.diseno_id} onChange={handleChange}>
+              <option value="">-- Selecciona un diseño --</option>
+              {disenos.map((diseno) => (
+                <option key={diseno.id} value={diseno.id}>{diseno.nombre}</option>
+              ))}
+            </select>
+          </div>
+        </div>
 
-      <select name="disenoId" onChange={handleChange} required>
-        <option value="">Selecciona un diseño</option>
-        {disenos.map((d) => (
-          <option key={d.id} value={d.id}>
-            {d.nombre}
-          </option>
-        ))}
-      </select>
+        <div className="fila-inputs">
+          <div className="grupo-input">
+            <label>Color:</label>
+            <select name="color_id" required value={formulario.color_id} onChange={handleChange}>
+              <option value="">-- Selecciona un color --</option>
+              {colores.map((color) => (
+                <option key={color.id} value={color.id}>{color.nombre}</option>
+              ))}
+            </select>
+          </div>
+          <div className="grupo-input">
+            <label>Tamaño:</label>
+            <select name="tamano_id" required value={formulario.tamano_id} onChange={handleChange}>
+              <option value="">-- Selecciona un tamaño --</option>
+              {tamanos.map((tamano) => (
+                <option key={tamano.id} value={tamano.id}>{tamano.nombre}</option>
+              ))}
+            </select>
+          </div>
+        </div>
 
-      <select name="modeloId" onChange={handleChange} required>
-        <option value="">Selecciona un modelo</option>
-        {modelos.map((m) => (
-          <option key={m.id} value={m.id}>
-            {m.nombre}
-          </option>
-        ))}
-      </select>
-
-      <select name="tamanoId" onChange={handleChange} required>
-        <option value="">Selecciona un tamaño</option>
-        {tamanos.map((t) => (
-          <option key={t.id} value={t.id}>
-            {t.nombre}
-          </option>
-        ))}
-      </select>
-
-      <button type="submit" disabled={cargando}>
-        {cargando ? "Guardando..." : "Guardar"}
-      </button>
-    </form>
+        <button type="submit" className="btn-guardar" disabled={cargando}>
+          {cargando ? 'Guardando...' : 'Guardar Maceta'}
+        </button>
+      </form>
+    </div>
   );
 };
 
