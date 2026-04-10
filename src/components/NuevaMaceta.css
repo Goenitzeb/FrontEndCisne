@@ -96,7 +96,7 @@
   border-radius: 6px;
   font-size: 1rem;
   font-family: inherit;
-  background-color: #ffffff; /* Asegura que el fondo sea blanco */
+  background-color: #333333; /* Asegura que el fondo sea blanco */
 }
 
 /* Y haz lo mismo para el focus: */
